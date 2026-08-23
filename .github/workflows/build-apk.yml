@@ -1,4 +1,4 @@
-name: Build Attendance APK
+name: Build Android APK
 
 on:
   push:
@@ -11,31 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v5
+      - name: Set up Java JDK
+        uses: actions/setup-java@v3
         with:
-          distribution: temurin
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          gradle-version: '8.9'
+          node-version: '18'
 
-      - name: Check Kotlin dependencies
-        working-directory: android
-        run: gradle app:dependencyInsight --dependency kotlin-stdlib-jdk8 --configuration debugRuntimeClasspath
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
 
-      - name: Build APK
-        working-directory: android
-        run: gradle assembleDebug --no-daemon
+      - name: Initialize & Build APK
+        run: |
+          # إنشاء مشروع Android تلقائي من الـ Manifest
+          bubblewrap init --manifest=https://my-app.com/manifest.json --directory=android-app
+          cd android-app
+          # بناء ملف الـ APK (Unsigned / Release APK)
+          bubblewrap build
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: attendance-app-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+          name: AlMajd-Attendance-App
+          path: android-app/*.apk
