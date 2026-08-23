@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مدرسة المجد النموذجية الخاصة - نظام الحضور</title>
+  
+  <meta name="theme-color" content="#008A45">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="حضور المجد">
+
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #008A45;
+      --secondary-blue: #008CC9;
+      --accent-gold: #EBA826;
+      --bg-light: #F4F7F6;
+      --text-dark: #2C3E50;
+      --white: #FFFFFF;
+      --danger: #E74C3C;
+      --warning: #F39C12;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 15px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-green), #005c2e);
+      color: var(--white);
+      text-align: center;
+      padding: 20px 15px 15px;
+      border-bottom: 4px solid var(--accent-gold);
+    }
+
+    /* تصغير حجم الشعار والحاوية */
+    .logo-container {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 8px;
+      background: var(--white);
+      border-radius: 50%;
+      padding: 3px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+      border: 2px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .header h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .header p {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 20px 15px;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      border: 1px solid #EAEAEA;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      text-align: right;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--primary-green);
+      font-size: 0.9rem;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #E0E0E0;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      text-align: center;
+      outline: none;
+    }
+
+    input[type="password"]:focus {
+      border-color: var(--secondary-blue);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-green);
+      color: var(--white);
+    }
+
+    .btn-save {
+      background-color: var(--secondary-blue);
+      color: var(--white);
+      margin-top: 15px;
+      box-shadow: 0 4px 10px rgba(0, 140, 201, 0.25);
+    }
+
+    .student-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #F0F0F0;
+    }
+
+    .student-item:last-child {
+      border-bottom: none;
+    }
+
+    .student-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .status-btn-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .status-btn {
+      padding: 6px 10px;
+      border-radius: 16px;
+      border: 1.5px solid #E0E0E0;
+      background: #F9F9F9;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: #666;
+      transition: all 0.2s ease;
+    }
+
+    .status-btn.present.active {
+      background-color: var(--primary-green);
+      color: var(--white);
+      border-color: var(--primary-green);
+    }
+
+    .status-btn.late.active {
+      background-color: var(--warning);
+      color: var(--white);
+      border-color: var(--warning);
+    }
+
+    .status-btn.absent.active {
+      background-color: var(--danger);
+      color: var(--white);
+      border-color: var(--danger);
+    }
+
+    .info-bar {
+      background: #E8F5E9;
+      border-right: 4px solid var(--primary-green);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .offline-banner {
+      background: var(--warning);
+      color: white;
+      text-align: center;
+      padding: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      background: var(--accent-gold);
+      color: var(--white);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .hidden { display: none; }
+    
+    .alert {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 10px;
+      text-align: center;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="header">
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#008A45" stroke-width="8"/>
+        <circle cx="100" cy="100" r="82" fill="none" stroke="#008A45" stroke-width="2"/>
+        <path d="M 45 130 C 35 90, 60 50, 100 40 C 140 50, 165 90, 155 130" fill="none" stroke="#008A45" stroke-width="4" stroke-dasharray="6 4"/>
+        <path d="M 65 110 Q 100 125 100 100 Q 100 125 135 110 L 135 135 Q 100 150 100 125 Q 100 150 65 135 Z" fill="#008CC9"/>
+        <path d="M 95 85 L 105 85 L 102 100 L 98 100 Z" fill="#EBA826"/>
+        <path d="M 100 65 C 90 75, 100 85, 100 85 C 100 85, 110 75, 100 65 Z" fill="#E74C3C"/>
+        <text x="100" y="30" font-family="Tajawal, sans-serif" font-size="12" font-weight="bold" fill="#008A45" text-anchor="middle">مدرسة المجد النموذجية</text>
+        <text x="100" y="175" font-family="Tajawal, sans-serif" font-size="10" font-weight="bold" fill="#008A45" text-anchor="middle">AL-MAJD SCHOOL</text>
+      </svg>
+    </div>
+    <h1>مدرسة المجد النموذجية الخاصة</h1>
+    <p>نظام إدارة الحضور والغياب اليومي</p>
+  </div>
+
+  <div class="content">
+    <div id="offlineNotice" class="offline-banner hidden">⚠️ أنتِ تعملين في وضع الأوفلاين. سيتم مزامنة البيانات تلقائياً عند الاتصال بالإنترنت.</div>
+
+    <div id="loginSection" class="card">
+      <div class="input-group">
+        <label for="teacherCode">أدخلي كود المعلمة الخاص بكِ</label>
+        <input type="password" id="teacherCode" placeholder="••••" maxlength="10">
+      </div>
+      <button class="btn btn-primary" onclick="handleLogin()">دخول للنظام</button>
+      <div id="loginError" class="alert"></div>
+    </div>
+
+    <div id="attendanceSection" class="hidden">
+      <div class="info-bar">
+        <div>أهلاً بكِ أ. <strong id="teacherName"></strong> (<span id="gradeName"></span>)</div>
+        <span id="saveStatus" class="status-badge hidden">مسجل</span>
+      </div>
+
+      <div class="card">
+        <div id="studentsList"></div>
+        <button class="btn btn-save" onclick="submitAttendance()">حفظ / تعديل كشف الحضور</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentTeacher = null;
+
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
+  function updateOnlineStatus() {
+    if (!navigator.onLine) {
+      document.getElementById('offlineNotice').classList.remove('hidden');
+    } else {
+      document.getElementById('offlineNotice').classList.add('hidden');
+      syncOfflineData();
+    }
+  }
+
+  const OFFLINE_TEACHERS = {
+    "101": { name: "ميساء الجمل", grade: "الصف الأول", students: ["محمد سعيد", "أحمد سعيد", "منار سعيد"] },
+    "102": { name: "نهاد عزيز", grade: "الصف الثاني", students: ["جابر عبدالله", "ميساء عبدالله", "أحمد الجبري"] },
+    "103": { name: "منال حرزالله", grade: "الصف الثالث", students: ["راغب أحمد", "إيناس حرزالله", "حامد أحمد"] }
+  };
+
+  function handleLogin() {
+    const code = document.getElementById('teacherCode').value;
+    const errorDiv = document.getElementById('loginError');
+    errorDiv.innerText = '';
+
+    if(!code) {
+      errorDiv.innerText = 'يرجى إدخال الكود الخاص بكِ';
+      return;
+    }
+
+    if (navigator.onLine) {
+      google.script.run.withSuccessHandler(function(response) {
+        if(response.success) {
+          currentTeacher = response.teacher;
+          setupAttendanceScreen(response.todayData);
+        } else {
+          errorDiv.innerText = response.message;
+        }
+      }).loginTeacher(code);
+    } else {
+      if (OFFLINE_TEACHERS[code]) {
+        currentTeacher = OFFLINE_TEACHERS[code];
+        const localSaved = JSON.parse(localStorage.getItem('offline_attendance_' + currentTeacher.name) || '{}');
+        setupAttendanceScreen(localSaved);
+      } else {
+        errorDiv.innerText = 'كود الدخول غير صحيح';
+      }
+    }
+  }
+
+  function setupAttendanceScreen(todayData) {
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('attendanceSection').classList.remove('hidden');
+    
+    document.getElementById('teacherName').innerText = currentTeacher.name;
+    document.getElementById('gradeName').innerText = currentTeacher.grade;
+
+    const hasSavedRecords = Object.keys(todayData).length > 0;
+    if(hasSavedRecords) {
+      document.getElementById('saveStatus').classList.remove('hidden');
+    } else {
+      document.getElementById('saveStatus').classList.add('hidden');
+    }
+
+    const listContainer = document.getElementById('studentsList');
+    listContainer.innerHTML = '';
+
+    currentTeacher.students.forEach((student) => {
+      const savedStatus = todayData[student] || 'حاضر';
+
+      listContainer.innerHTML += `
+        <div class="student-item" data-student="${student}">
+          <span class="student-name">${student}</span>
+          <div class="status-btn-group">
+            <button class="status-btn present ${savedStatus === 'حاضر' ? 'active' : ''}" onclick="setStatus(this, 'حاضر')">حاضر</button>
+            <button class="status-btn late ${savedStatus === 'متأخر' ? 'active' : ''}" onclick="setStatus(this, 'متأخر')">متأخر</button>
+            <button class="status-btn absent ${savedStatus === 'غائب' ? 'active' : ''}" onclick="setStatus(this, 'غائب')">غائب</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function setStatus(btn, status) {
+    const group = btn.parentElement;
+    group.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function submitAttendance() {
+    const records = [];
+    const localMap = {};
+    document.querySelectorAll('.student-item').forEach(item => {
+      const studentName = item.getAttribute('data-student');
+      const status = item.querySelector('.status-btn.active').innerText;
+      records.push({ studentName, status });
+      localMap[studentName] = status;
+    });
+
+   const payload = {
+      authCode: document.getElementById('teacherCode').value, // إرسال كلمة السر للتحقق السحابي
+      teacherName: currentTeacher.name,
+      grade: currentTeacher.grade,
+      records: records
+    };
+
+    if (navigator.onLine) {
+      google.script.run.withSuccessHandler(function(res) {
+        if(res.success) {
+          alert('تم حفظ وتعديل البيانات في كشف الحضور بنجاح!');
+          document.getElementById('saveStatus').classList.remove('hidden');
+          localStorage.removeItem('pending_sync_' + currentTeacher.name);
+        } else {
+          alert('حدث خطأ أثناء الحفظ: ' + res.message);
+        }
+      }).saveAttendance(payload);
+    } else {
+      localStorage.setItem('offline_attendance_' + currentTeacher.name, JSON.stringify(localMap));
+      localStorage.setItem('pending_sync_' + currentTeacher.name, JSON.stringify(payload));
+      alert('⚠️ تم الحفظ محلياً للجوال (أوفلاين). سيتم إرسال الكشف للجوجل شيت تلقائياً فور توفر الإنترنت.');
+      document.getElementById('saveStatus').classList.remove('hidden');
+    }
+  }
+
+  function syncOfflineData() {
+    for (let key in localStorage) {
+      if (key.startsWith('pending_sync_')) {
+        const payload = JSON.parse(localStorage.getItem(key));
+        if (payload) {
+          google.script.run.withSuccessHandler(function(res) {
+            if (res.success) {
+              localStorage.removeItem(key);
+            }
+          }).saveAttendance(payload);
+        }
+      }
+    }
+  }
+
+  updateOnlineStatus();
+</script>
+
+</body>
+</html>
