@@ -1,28 +1,3 @@
 plugins {
-    id 'com.android.application'
-}
-
-android {
-    namespace 'com.farhatna.attendance'
-    compileSdk 35
-
-    defaultConfig {
-        applicationId "com.farhatna.attendance"
-        minSdk 23
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
-    }
-}
-
-configurations.configureEach {
-    resolutionStrategy.eachDependency { details ->
-        if (details.requested.group == 'org.jetbrains.kotlin') {
-            details.useVersion '1.8.22'
-        }
-    }
-}
-
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    id 'com.android.application' version '8.7.3' apply false
 }
