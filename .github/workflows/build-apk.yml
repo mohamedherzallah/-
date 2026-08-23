@@ -25,6 +25,10 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Check Kotlin dependencies
+        working-directory: android
+        run: gradle app:dependencyInsight --dependency kotlin-stdlib-jdk8 --configuration debugRuntimeClasspath
+
       - name: Build APK
         working-directory: android
         run: gradle assembleDebug --no-daemon
